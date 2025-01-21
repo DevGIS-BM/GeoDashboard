@@ -54,6 +54,8 @@ names = [user['name'] for user in user_data.values()]
 usernames = [user['username'] for user in user_data.values()]
 hashed_passwords = [user['password'] for user in user_data.values()]
 
+
+
 authenticator = stauth.Authenticate(
     names, 
     usernames, 
