@@ -78,7 +78,6 @@ if st.button("Create User"):
     # Add user to the database
     user_data[new_username] = {
         "name": new_name,
-        "username":new_username,
         "email": new_email,
         "role": new_role,
         "password": hashed_password

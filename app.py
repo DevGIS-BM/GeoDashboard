@@ -44,7 +44,7 @@ if Path(user_db_path).exists():
         user_data = pickle.load(file)
         
     # Debugging: Check the structure of user_data
-    # print(user_data)  # Print the structure of user_data       
+    print(user_data)  # Print the structure of user_data       
 else:
     user_data = {}
     print('KO')
@@ -81,7 +81,7 @@ authenticator = stauth.Authenticate(
     cookie_key, 
     cookie_expiry_days
 )
-print(authenticator)
+# print(authenticator)
 # Login Form
 name, authentication_status, username = authenticator.login("Login", "main")
 
