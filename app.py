@@ -66,6 +66,7 @@ usernames = list(user_data.keys())
 names = [user_data[username]['name'] for username in usernames] 
 hashed_passwords = [user_data[username]['password'] for username in usernames]
 
+
 # Initialize the authenticator
 print(usernames)
 print(names)
