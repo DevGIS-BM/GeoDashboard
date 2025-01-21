@@ -64,6 +64,9 @@ names = [user_data[username]['name'] for username in usernames]
 hashed_passwords = [user_data[username]['password'] for username in usernames]
 
 # Initialize the authenticator
+print(usernames)
+print(names)
+print(hashed_passwords)
 
 
 
@@ -75,7 +78,7 @@ authenticator = stauth.Authenticate(
     cookie_key, 
     cookie_expiry_days
 )
-
+print(authenticator)
 # Login Form
 name, authentication_status, username = authenticator.login("Login", "main")
 
