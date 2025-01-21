@@ -7,7 +7,7 @@ name = "Super admin"
 username = "super1"
 email = "new_user@example.com"
 role = "superadmin"
-password = "new123"  # Plaintext password
+password = "abc123"  # Plaintext password
 
 # Hash the password
 hashed_password = stauth.Hasher([password]).generate()[0]
@@ -21,9 +21,8 @@ else:
     user_data = {}
 
 # Add new user
-user_data["usernames"] = {
+user_data[username] = {
     "name": name,
-    "username": username,
     "email": email,
     "role": role,
     "password": hashed_password
