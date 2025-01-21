@@ -1,0 +1,17 @@
+style.css
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.header {
+  background-color: #f2f2f2;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart {
+  border: 1px solid #ddd;
+  padding: 10px;
+}
