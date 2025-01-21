@@ -44,11 +44,14 @@ if Path(user_db_path).exists():
         user_data = pickle.load(file)
         
     # Debugging: Check the structure of user_data
-    print(user_data)  # Print the structure of user_data       
+    # print(user_data)  # Print the structure of user_data       
 else:
     user_data = {}
     print('KO')
 
+if not isinstance(user_data, dict) or not all(isinstance(v, dict) for v in user_data.values()):
+    st.error("Invalid user data structure in users.pkl.")
+    st.stop()
 
 # names = [user['name'] for user in user_data.values()]
 # usernames = [user['username'] for user in user_data.values()]
