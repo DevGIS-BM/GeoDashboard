@@ -50,18 +50,18 @@ else:
     print('KO')
 
 
-# names = [user['name'] for user in user_data.values()]
-# usernames = [user['username'] for user in user_data.values()]
-# hashed_passwords = [user['password'] for user in user_data.values()]
+names = [user['name'] for user in user_data.values()]
+usernames = [user['username'] for user in user_data.values()]
+hashed_passwords = [user['password'] for user in user_data.values()]
 
 # Prepare data in the required format
 # usernames = list(user_data.keys())  # Extracting usernames directly from the dictionary keys
 # names = [user_data[username]['name'] for username in usernames]  # Extracting names from the user data
 # hashed_passwords = [user_data[username]['password'] for username in usernames]  # Extracting hashed passwords
 
-usernames = list(user_data.keys()) 
-names = [user_data[username]['name'] for username in usernames] 
-hashed_passwords = [user_data[username]['password'] for username in usernames]
+# usernames = list(user_data.keys()) 
+# names = [user_data[username]['name'] for username in usernames] 
+# hashed_passwords = [user_data[username]['password'] for username in usernames]
 
 # Initialize the authenticator
 print(usernames)
