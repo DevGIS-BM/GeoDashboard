@@ -21,8 +21,9 @@ else:
     user_data = {}
 
 # Add new user
-user_data[username] = {
+user_data["usernames"] = {
     "name": name,
+    "username": username,
     "email": email,
     "role": role,
     "password": hashed_password
