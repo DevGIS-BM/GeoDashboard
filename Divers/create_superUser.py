@@ -1,37 +1,39 @@
 import pickle
 import streamlit_authenticator as stauth
-from pathlib import Path
 
 # Sample user data for adding
-name = ["Super admin","user1"]
-username = ["super1","user1"]
-email = ["supe1r@example.com","user1@example.com"]
-role = ["superadmin","user"]
-password = ["abc123","123abc"] # Plaintext password
+names = ["Ahmed", "Laila"]
+usernames = ["Ahmed1", "laila1"]
+emails = ["ahmed@geo.com", "laila@geo.com"]
+roles = ["superadmin","user"]
+passwords = ["abc12", "def23"]  # Plaintext passwords
 
-# Hash the password
-hashed_password = stauth.Hasher(password).generate()
+# Hash the passwords
+hashed_passwords = stauth.Hasher(passwords).generate()
 
-# Load existing user data
-user_db_path = "data/users.pkl"
-if Path(user_db_path).exists():
-    with open(user_db_path, "rb") as file:
-        user_data = pickle.load(file)
-else:
-    user_data = {}
 
-# Add new user
-for user in username:
-    i=username.index(user)
-    user_data[user] = {
-        "name": name[i],
-        "email": email[i],
-        "role": role[i],
-        "password": hashed_password[i]
+# Prepare the credentials structure
+data = {
+    "credentials": {
+        "usernames": {}
+    }
+}
+
+
+# Add users to the credentials structure
+for i, username in enumerate(usernames):
+    data["credentials"]["usernames"][username] = {
+        "name": names[i],
+        "email": emails[i],
+        "role": roles[i],
+        "password": hashed_passwords[i]
     }
 
-# Save the updated user data
-with open(user_db_path, "wb") as file:
-    pickle.dump(user_data, file)
+# Path to save the credentials
+user_db_path = "data/users.pkl"
 
-print("User added successfully!")
+# Save the credentials to the pickle file
+with open(user_db_path, "wb") as file:
+    pickle.dump(data, file)
+
+print("Credentials saved successfully!")
