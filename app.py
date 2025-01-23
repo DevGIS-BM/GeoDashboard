@@ -128,8 +128,10 @@ if st.session_state["authentication_status"]:
     except Exception as err:
         st.error(f'Unexpected exception {err}')
         raise Exception(err)
-elif authentication_status is False:
+elif st.session_state["authentication_status"]==False:
+# elif authentication_status is False:
     st.error("Username/password is incorrect")
-elif authentication_status is None:
+elif st.session_state["authentication_status"]==None:
+# elif authentication_status is None:
     st.warning("Please enter your username and password")
 
