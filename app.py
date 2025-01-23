@@ -1,8 +1,9 @@
+import yaml
 import streamlit as st
-import pickle
-from pathlib import Path
 import streamlit_authenticator as stauth
+from pathlib import Path
 import geopandas as gpd
+
 
 
 st.set_page_config(layout="wide")
@@ -32,93 +33,36 @@ if "roads" not in st.session_state:
     roads_path = r"data/routes.shp"
     st.session_state["roads"] = load_data(roads_path)
 
-# Authentication Parameters
-cookie_expiry_days = 30
-cookie_key = 'abcd123'
-cookie_name = 'streamlit_auth'
+# Configuration for the YAML credentials file
+user_db_path = "data/credentials.yaml"
 
-# # Load user data from pickle (hashed passwords)
-# user_db_path = "data/users.pkl"
-# if Path(user_db_path).exists():
-#     with open(user_db_path, "rb") as file:
-#         user_data = pickle.load(file)
-        
-#     # Debugging: Check the structure of user_data
-#     print(user_data)  # Print the structure of user_data       
-# else:
-#     user_data = {}
-#     print('KO')
-
-# if not isinstance(user_data, dict) or not all(isinstance(v, dict) for v in user_data.values()):
-#     st.error("Invalid user data structure in users.pkl.")
-#     st.stop()
-
-# # names = [user['name'] for user in user_data.values()]
-# # usernames = [user['username'] for user in user_data.values()]
-# # hashed_passwords = [user['password'] for user in user_data.values()]
-
-# # Prepare data in the required format
-# # usernames = list(user_data.keys())  # Extracting usernames directly from the dictionary keys
-# # names = [user_data[username]['name'] for username in usernames]  # Extracting names from the user data
-# # hashed_passwords = [user_data[username]['password'] for username in usernames]  # Extracting hashed passwords
-
-# usernames = list(user_data.keys()) 
-# names = [user_data[username]['name'] for username in usernames] 
-# hashed_passwords = [user_data[username]['password'] for username in usernames]
-
-
-# # Initialize the authenticator
-# print(usernames)
-# print(names)
-# print(hashed_passwords)
-
-
-
-# authenticator = stauth.Authenticate(
-#     names, 
-#     usernames, 
-#     hashed_passwords, 
-#     cookie_name, 
-#     cookie_key, 
-#     cookie_expiry_days
-# )
-
-
-
-# Load user data from pickle (hashed passwords)
-user_db_path = "data/users.pkl"
+# Load user data from YAML file
 if Path(user_db_path).exists():
-    with open(user_db_path, "rb") as file:
-        user_data = pickle.load(file)
-
-    # Debugging: Check the structure of user_data
-    print(user_data)  # Print the structure of user_data
+    with open(user_db_path, "r") as file:
+        user_data = yaml.safe_load(file)
 else:
-    user_data = {}
-    print("KO")
+    st.error(f"Credentials file not found: {user_db_path}")
+    st.stop()
 
-# Validate the structure of the loaded data
+# Validate YAML structure
 if (
-    not isinstance(user_data, dict) or 
     "credentials" not in user_data or 
     "usernames" not in user_data["credentials"] or 
     not isinstance(user_data["credentials"]["usernames"], dict)
 ):
-    st.error("Invalid user data structure in users.pkl.")
+    st.error("Invalid user data structure in users.yaml.")
     st.stop()
 
-# Extract user information from the nested structure
+# Extract user credentials
 credentials = user_data["credentials"]["usernames"]
-
-# Prepare lists for the authenticator
 usernames = list(credentials.keys())
 names = [credentials[username]["name"] for username in usernames]
 hashed_passwords = [credentials[username]["password"] for username in usernames]
 
-# Debugging: Print extracted data
-print("Usernames:", usernames)
-print("Names:", names)
-print("Hashed Passwords:", hashed_passwords)
+# Authentication Parameters
+cookie_expiry_days = 30
+cookie_key = "abcd123"
+cookie_name = "streamlit_auth"
 
 # Initialize the authenticator
 authenticator = stauth.Authenticate(
@@ -130,49 +74,44 @@ authenticator = stauth.Authenticate(
     cookie_expiry_days,
 )
 
-# print(authenticator)
 # Login Form
 name, authentication_status, username = authenticator.login("Login", "main")
 
 # Load role from the user data
-role = user_data.get(username, {}).get('role') if authentication_status else None
+role = credentials.get(username, {}).get("role") if authentication_status else None
 
 if authentication_status:
     authenticator.logout("Logout", "sidebar")
     st.sidebar.title(f"Welcome, {name}!")
 
     # Sidebar Navigation
-    # Define Pages
     h = st.Page("app_pages/home_pg.py", title="🖥️ Home")
     p1 = st.Page("app_pages/chart_pg.py", title="📉 Graphes")
     p2 = st.Page("app_pages/map_pg.py", title="🗺️ Carte interactive")
     sr = st.Page("app_pages/search_pg.py", title="🔍 Recherche")
     stg = st.Page("app_pages/settings_pg.py", title="⚙️ Paramètres")
     
-    # Only add the "Update Data" page if the user is the admin (Ahmed Hassan)
+    # Add admin and superadmin tools
     update_data_page = None
     manage_users_page = None
-    if (role == "admin") or (role == "superadmin"):  
+    if role in {"admin", "superadmin"}:
         update_data_page = st.Page("app_pages/update_data.py", title="📝 Actualiser les données")
-
-    if role == "superadmin":  
-        manage_users_page = st.Page("app_pages/manage_users.py", title="👤 Gestion des utilisateurs")    
+    if role == "superadmin":
+        manage_users_page = st.Page("app_pages/manage_users.py", title="👤 Gestion des utilisateurs")
     
-    # Sidebar Navigation (only add pages that are not None)
+    # Sidebar Navigation
     pages = {
         "Home": [h],
         "Dashboard": [p1, p2],
         "Tools": [sr, stg],
     }
-
     if update_data_page:
-        pages["Admin Tools"] = [update_data_page]  # Add the "Update Data" page under Admin Tools
-        
+        pages["Admin Tools"] = [update_data_page]
     if manage_users_page:
         if "Admin Tools" in pages:
-            pages["Admin Tools"].append(manage_users_page)  # Add the "Manage Users" page if it's already there
+            pages["Admin Tools"].append(manage_users_page)
         else:
-            pages["Admin Tools"] = [manage_users_page]  # If not, create the "Admin Tools" page
+            pages["Admin Tools"] = [manage_users_page]
     
     pg = st.navigation(pages)
     pg.run()
