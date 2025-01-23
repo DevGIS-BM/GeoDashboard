@@ -73,7 +73,7 @@ cookie_name = "streamlit_auth"
 #     cookie_key,
 #     cookie_expiry_days,
 # )
-authenticator = stauth.Authenticate(names, usernames, hashed_passwords,cookie_name, cookie_key, cookie_expiry_days)
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords)
 
 # Login Form
 name, authentication_status, username = authenticator.login("Login", "main")
