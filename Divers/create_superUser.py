@@ -2,27 +2,23 @@ import pickle
 import streamlit_authenticator as stauth
 
 # Sample user data for adding
-names = ["Ahmed", "Laila"]
-usernames = ["Ahmed1", "laila1"]
-emails = ["ahmed@geo.com", "laila@geo.com"]
-roles = ["superadmin","user"]
-passwords = ["abc12", "def23"]  # Plaintext passwords
+names = ["Ahmed", "Laila","Hassan"]
+usernames = ["ahmed1", "laila1","hassan1"]
+emails = ["ahmed@geo.com", "laila@geo.com","hassan@geo.com"]
+roles = ["admin","viewer","editor"]
+passwords = ["abc12", "def23","abcdef"]  # Plaintext passwords
 
 # Hash the passwords
 hashed_passwords = stauth.Hasher(passwords).generate()
 
 
 # Prepare the credentials structure
-data = {
-    "credentials": {
-        "usernames": {}
-    }
-}
+data = {}
 
 
 # Add users to the credentials structure
 for i, username in enumerate(usernames):
-    data["credentials"]["usernames"][username] = {
+    data[username] = {
         "name": names[i],
         "email": emails[i],
         "role": roles[i],

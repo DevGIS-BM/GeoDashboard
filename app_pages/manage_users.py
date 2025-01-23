@@ -65,7 +65,7 @@ st.subheader("Create New User")
 new_name = st.text_input("Name")
 new_username = st.text_input("Username")
 new_email = st.text_input("Email")
-new_role = st.selectbox("Role", ["user", "admin"])
+new_role = st.selectbox("Role", ["admin","editor","viewer"])
 
 if st.button("Create User"):
     # Generate random password
@@ -99,12 +99,12 @@ user_to_manage = st.selectbox("Select a user to manage", list(user_data.keys()))
 if user_to_manage:
     user_details = user_data[user_to_manage]
     st.write(f"Name: {user_details['name']}")
-    st.write(f"Username: {user_details['username']}")
+    st.write(f"Username: {user_to_manage}")
     st.write(f"Email: {user_details['email']}")
     st.write(f"Role: {user_details['role']}")
 
     # Role change option
-    new_role = st.selectbox("Change role", ["user", "admin","superadmin"], index=["user", "admin","superadmin"].index(user_details["role"]))
+    new_role = st.selectbox("Change role", ["admin","editor","viewer"], index=["admin","editor","viewer"].index(user_details["role"]))
     if st.button("Change Role"):
         user_data[user_to_manage]["role"] = new_role
         # Save the updated user data to pickle file
