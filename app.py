@@ -87,44 +87,47 @@ if st.session_state["authentication_status"]:
     try:
         authenticator.logout("Logout", "sidebar")
         st.sidebar.title(f"Welcome, {name}!")
+
+        # Sidebar Navigation
+        # Define Pages
+        h = st.Page("app_pages/home_pg.py", title="🖥️ Home")
+        p1 = st.Page("app_pages/chart_pg.py", title="📉 Graphes")
+        p2 = st.Page("app_pages/map_pg.py", title="🗺️ Carte interactive")
+        sr = st.Page("app_pages/search_pg.py", title="🔍 Recherche")
+        stg = st.Page("app_pages/settings_pg.py", title="⚙️ Paramètres")
+        
+        # Only add the "Update Data" page if the user is the admin (Ahmed Hassan)
+        update_data_page = None
+        manage_users_page = None
+        if (role == "admin") or (role == "editor"):  
+            update_data_page = st.Page("app_pages/update_data.py", title="📝 Actualiser les données")
+
+        if role == "admin":  
+            manage_users_page = st.Page("app_pages/manage_users.py", title="👤 Gestion des utilisateurs")    
+        
+        # Sidebar Navigation (only add pages that are not None)
+        pages = {
+            "Home": [h],
+            "Dashboard": [p1, p2],
+            "Tools": [sr, stg],
+        }
+
+        if update_data_page:
+            pages["Admin Tools"] = [update_data_page]  # Add the "Update Data" page under Admin Tools
+            
+        if manage_users_page:
+            if "Admin Tools" in pages:
+                pages["Admin Tools"].append(manage_users_page)  # Add the "Manage Users" page if it's already there
+            else:
+                pages["Admin Tools"] = [manage_users_page]  # If not, create the "Admin Tools" page
+        
+        pg = st.navigation(pages)
+        pg.run()
     except KeyError:
         pass  # ignore it
-    # Sidebar Navigation
-    # Define Pages
-    h = st.Page("app_pages/home_pg.py", title="🖥️ Home")
-    p1 = st.Page("app_pages/chart_pg.py", title="📉 Graphes")
-    p2 = st.Page("app_pages/map_pg.py", title="🗺️ Carte interactive")
-    sr = st.Page("app_pages/search_pg.py", title="🔍 Recherche")
-    stg = st.Page("app_pages/settings_pg.py", title="⚙️ Paramètres")
-    
-    # Only add the "Update Data" page if the user is the admin (Ahmed Hassan)
-    update_data_page = None
-    manage_users_page = None
-    if (role == "admin") or (role == "editor"):  
-        update_data_page = st.Page("app_pages/update_data.py", title="📝 Actualiser les données")
-
-    if role == "admin":  
-        manage_users_page = st.Page("app_pages/manage_users.py", title="👤 Gestion des utilisateurs")    
-    
-    # Sidebar Navigation (only add pages that are not None)
-    pages = {
-        "Home": [h],
-        "Dashboard": [p1, p2],
-        "Tools": [sr, stg],
-    }
-
-    if update_data_page:
-        pages["Admin Tools"] = [update_data_page]  # Add the "Update Data" page under Admin Tools
-        
-    if manage_users_page:
-        if "Admin Tools" in pages:
-            pages["Admin Tools"].append(manage_users_page)  # Add the "Manage Users" page if it's already there
-        else:
-            pages["Admin Tools"] = [manage_users_page]  # If not, create the "Admin Tools" page
-    
-    pg = st.navigation(pages)
-    pg.run()
-
+    except Exception as err:
+        st.error(f'Unexpected exception {err}')
+        raise Exception(err)
 elif authentication_status is False:
     st.error("Username/password is incorrect")
 elif authentication_status is None:
