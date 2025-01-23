@@ -80,10 +80,22 @@ name, authentication_status, username = authenticator.login("Login", "main")
 # Load role from the user data
 role = user_data.get(username, {}).get('role') if authentication_status else None
 
-if authentication_status:
-    authenticator.logout("Logout", "sidebar")
-    st.sidebar.title(f"Welcome, {name}!")
+if st.session_state["authentication_status"]:
+    try:
+        authenticator.logout(location='main') 
+    except KeyError:
+        pass  # ignore it
+    except Exception as err:
+        st.error(f'Unexpected exception {err}')
+        raise Exception(err)  # but not this, let's crash the app
 
+if st.session_state["authentication_status"]:
+# if authentication_status:
+    try:
+        authenticator.logout("Logout", "sidebar")
+        st.sidebar.title(f"Welcome, {name}!")
+    except KeyError:
+        pass  # ignore it
     # Sidebar Navigation
     # Define Pages
     h = st.Page("app_pages/home_pg.py", title="🖥️ Home")
