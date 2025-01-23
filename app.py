@@ -65,14 +65,15 @@ cookie_key = "abcd123"
 cookie_name = "streamlit_auth"
 
 # Initialize the authenticator
-authenticator = stauth.Authenticate(
-    names,
-    usernames,
-    hashed_passwords,
-    cookie_name,
-    cookie_key,
-    cookie_expiry_days,
-)
+# authenticator = stauth.Authenticate(
+#     names,
+#     usernames,
+#     hashed_passwords,
+#     cookie_name,
+#     cookie_key,
+#     cookie_expiry_days,
+# )
+authenticator = stauth.Authenticate(names, usernames, hashed_passwords,cookie_name, cookie_key, cookie_expiry_days)
 
 # Login Form
 name, authentication_status, username = authenticator.login("Login", "main")
