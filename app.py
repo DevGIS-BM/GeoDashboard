@@ -33,7 +33,7 @@ if "roads" not in st.session_state:
     st.session_state["roads"] = load_data(roads_path)
 
 # Authentication Parameters
-cookie_expiry_days = 30
+cookie_expiry_days = 0
 cookie_key = 'abcd123'
 cookie_name = 'streamlit_auth'
 
@@ -44,23 +44,12 @@ if Path(user_db_path).exists():
         user_data = pickle.load(file)
         
     # Debugging: Check the structure of user_data
-    print(user_data)  # Print the structure of user_data       
+    # print(user_data)  # Print the structure of user_data       
 else:
     user_data = {}
-    print('KO')
+    # print('KO')
 
-if not isinstance(user_data, dict) or not all(isinstance(v, dict) for v in user_data.values()):
-    st.error("Invalid user data structure in users.pkl.")
-    st.stop()
 
-# names = [user['name'] for user in user_data.values()]
-# usernames = [user['username'] for user in user_data.values()]
-# hashed_passwords = [user['password'] for user in user_data.values()]
-
-# Prepare data in the required format
-# usernames = list(user_data.keys())  # Extracting usernames directly from the dictionary keys
-# names = [user_data[username]['name'] for username in usernames]  # Extracting names from the user data
-# hashed_passwords = [user_data[username]['password'] for username in usernames]  # Extracting hashed passwords
 
 usernames = list(user_data.keys()) 
 names = [user_data[username]['name'] for username in usernames] 
@@ -135,3 +124,4 @@ elif authentication_status is False:
     st.error("Username/password is incorrect")
 elif authentication_status is None:
     st.warning("Please enter your username and password")
+
