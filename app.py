@@ -33,7 +33,7 @@ if "roads" not in st.session_state:
     st.session_state["roads"] = load_data(roads_path)
 
 # Authentication Parameters
-cookie_expiry_days = 0
+cookie_expiry_days = 30
 cookie_key = 'abcd123'
 cookie_name = 'streamlit_auth'
 
@@ -57,9 +57,9 @@ hashed_passwords = [user_data[username]['password'] for username in usernames]
 
 
 # Initialize the authenticator
-print(usernames)
-print(names)
-print(hashed_passwords)
+# print(usernames)
+# print(names)
+# print(hashed_passwords)
 
 
 
