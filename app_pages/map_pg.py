@@ -35,8 +35,8 @@ def create_map(selected_theme, selected_basemap):
 
     # Popup for communes
     popup = folium.GeoJsonPopup(
-        fields=["caidat_fr", "pop"],
-        aliases=["Caidat", "Population"],
+        fields=["commune_fr", "Population"],
+        aliases=["commune", "Population"],
         localize=True,
         labels=True,
         style="background-color: yellow;",
@@ -44,8 +44,8 @@ def create_map(selected_theme, selected_basemap):
 
     # Tooltip for communes
     tooltip = folium.GeoJsonTooltip(
-        fields=["caidat_fr", "pop"],
-        aliases=["Caidat", "Population"],
+        fields=["commune_fr", "Menages"],
+        aliases=["commune_fr", "Menages"],
         localize=True,
         sticky=False,
         labels=True,
@@ -189,13 +189,13 @@ def create_map(selected_theme, selected_basemap):
 if "show_map" not in st.session_state:
     st.session_state.show_map = False
 if "selected_theme" not in st.session_state:
-    st.session_state.selected_theme = "pop"
+    st.session_state.selected_theme = "Population"
 if "selected_basemap" not in st.session_state:
     st.session_state.selected_basemap = "OpenStreetMap"
 
 # --- Two Columns Layout ---
 col1, col2 = st.columns([5, 3])
-theme_options=("pop", "couv_educ","couv_sante")
+theme_options=('Population','Sante', 'Education', 'AEP', 'Elec', 'Voirier')
 
 # Column 1: Map and Select Boxes
 with col1:
@@ -245,11 +245,11 @@ with col2:
     chart_type = st.selectbox("Select chart type", ["Bar", "Pie", "Scatter"])
     # Generate chart based on user input
     if chart_type == "Bar":
-        fig = px.bar(communes, x="caidat_fr", y=chart_column, title=f"Bar Chart of {chart_column}", labels={"caidat_fr": "Caidat", chart_column: "Value"})
+        fig = px.bar(communes, x="commune_fr", y=chart_column, title=f"Bar Chart of {chart_column}", labels={"commune_fr": "Commune", chart_column: "Value"})
     elif chart_type == "Pie":
-        fig = px.pie(communes, names="caidat_fr", values=chart_column, title=f"Pie Chart of {chart_column}")
+        fig = px.pie(communes, names="commune_fr", values=chart_column, title=f"Pie Chart of {chart_column}")
     elif chart_type == "Scatter":
-        fig = px.scatter(communes, x="caidat_fr", y=chart_column, title=f"Scatter Plot of {chart_column}", labels={"caidat_fr": "Caidat", chart_column: "Value"})
+        fig = px.scatter(communes, x="commune_fr", y=chart_column, title=f"Scatter Plot of {chart_column}", labels={"commune_fr": "Commune", chart_column: "Value"})
 
     # Display the chart
     st.plotly_chart(fig, use_container_width=True)
