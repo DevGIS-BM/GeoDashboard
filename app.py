@@ -7,6 +7,8 @@ import geopandas as gpd
 # Set page configuration
 st.set_page_config(layout="wide")
 
+
+
 # Initialize session state for authentication
 if "authentication_status" not in st.session_state:
     st.session_state["authentication_status"] = None
@@ -21,25 +23,25 @@ def load_data(file_path):
     gdf = gpd.read_file(file_path)
     return gdf
 
-# Load and cache data in session state
+# Lostad and cache data in session state
 if "communes_data" not in st.session_state:
-    communes_path = r"data/communes.shp"
+    communes_path = r"data/communes.geojson"
     st.session_state["communes_data"] = load_data(communes_path)
     
 if "douars" not in st.session_state:
-    douars_path = r"data/douars_Rif.shp"
+    douars_path = r"data/douars.geojson"
     st.session_state["douars"] = load_data(douars_path)
 
 if "educ_data" not in st.session_state:
-    educ_path = r"data/education_province.shp"
+    educ_path = r"data/education_province.geojson"
     st.session_state["educ_data"] = load_data(educ_path)
 
 if "health_data" not in st.session_state:
-    health_path = r"data/CRS_Province.shp"
+    health_path = r"data/CRS_Province.geojson"
     st.session_state["health_data"] = load_data(health_path)
 
 if "roads" not in st.session_state:
-    roads_path = r"data/routes.shp"
+    roads_path = r"data/routes.geojson"
     st.session_state["roads"] = load_data(roads_path)
 
 # Authentication Parameters
@@ -101,8 +103,8 @@ if st.session_state["authentication_status"]:
                 st.session_state["authentication_status"] = False
                 st.session_state["name"] = None
                 st.session_state["username"] = None
-                st.experimental_rerun()
-                # st.rerun()  # Force rerun to display the login page
+                # st.experimental_rerun()
+                st.rerun()  # Force rerun to display the login page
                 
 
             # if authenticator.logout("Logout", "sidebar"):

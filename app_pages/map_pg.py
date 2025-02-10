@@ -233,23 +233,24 @@ with col1:
 
 # Column 2: Chart and Select Boxes
 with col2:
-    st.subheader("Analyse des Communes")
-    # communes = get_communes()
+    with st.expander("📊 Visualiser les graphes "):
+        st.subheader("Analyse des Communes")
+        # communes = get_communes()
 
-    # Chart options
-    
-# Add button to trigger chart display
+        # Chart options
+        
+    # Add button to trigger chart display
 
-    # chart_column = st.selectbox("Select a column for charting", communes.columns)
-    chart_column =  st.session_state.selected_theme
-    chart_type = st.selectbox("Select chart type", ["Bar", "Pie", "Scatter"])
-    # Generate chart based on user input
-    if chart_type == "Bar":
-        fig = px.bar(communes, x="commune_fr", y=chart_column, title=f"Bar Chart of {chart_column}", labels={"commune_fr": "Commune", chart_column: "Value"})
-    elif chart_type == "Pie":
-        fig = px.pie(communes, names="commune_fr", values=chart_column, title=f"Pie Chart of {chart_column}")
-    elif chart_type == "Scatter":
-        fig = px.scatter(communes, x="commune_fr", y=chart_column, title=f"Scatter Plot of {chart_column}", labels={"commune_fr": "Commune", chart_column: "Value"})
+        # chart_column = st.selectbox("Select a column for charting", communes.columns)
+        chart_column =  st.session_state.selected_theme
+        chart_type = st.selectbox("Select chart type", ["Bar", "Pie", "Scatter"])
+        # Generate chart based on user input
+        if chart_type == "Bar":
+            fig = px.bar(communes, x="commune_fr", y=chart_column, title=f"Bar Chart of {chart_column}", labels={"commune_fr": "Commune", chart_column: "Value"})
+        elif chart_type == "Pie":
+            fig = px.pie(communes, names="commune_fr", values=chart_column, title=f"Pie Chart of {chart_column}")
+        elif chart_type == "Scatter":
+            fig = px.scatter(communes, x="commune_fr", y=chart_column, title=f"Scatter Plot of {chart_column}", labels={"commune_fr": "Commune", chart_column: "Value"})
 
-    # Display the chart
-    st.plotly_chart(fig, use_container_width=True)
+        # Display the chart
+        st.plotly_chart(fig, use_container_width=True)

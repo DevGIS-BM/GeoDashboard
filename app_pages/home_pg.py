@@ -3,7 +3,7 @@ import streamlit as st
 # st.title("🖥️ Home")
 st.markdown('<link href="styles.css" rel="stylesheet">', unsafe_allow_html=True)
 
-st.image("images/indh3.png")
+st.image("images/indh.jpg")
 
 st.write("C'est un programme de développement communautaire participatif,"
          "en ce sens que ce sont les habitants des communes urbaines et rurales cibles"
