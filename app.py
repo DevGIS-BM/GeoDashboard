@@ -25,7 +25,7 @@ def load_data(file_path):
 
 # Lostad and cache data in session state
 if "communes_data" not in st.session_state:
-    communes_path = r"data/communes.geojson"
+    communes_path = r"data/Communes.geojson"
     st.session_state["communes_data"] = load_data(communes_path)
     
 if "douars" not in st.session_state:
