@@ -29,15 +29,15 @@ if "communes_data" not in st.session_state:
     st.session_state["communes_data"] = load_data(communes_path)
     
 if "douars" not in st.session_state:
-<<<<<<< HEAD
+
     douars_path = r"data/douars.geojson"
-=======
+
 
     # douars_path = r"data/douars.shp"
 
     douars_path = r"data/douars.geojson"
 
->>>>>>> 7a9238c (Adding commune)
+
     st.session_state["douars"] = load_data(douars_path)
 
 if "educ_data" not in st.session_state:
