@@ -29,7 +29,15 @@ if "communes_data" not in st.session_state:
     st.session_state["communes_data"] = load_data(communes_path)
     
 if "douars" not in st.session_state:
+<<<<<<< HEAD
     douars_path = r"data/douars.geojson"
+=======
+
+    # douars_path = r"data/douars.shp"
+
+    douars_path = r"data/douars.geojson"
+
+>>>>>>> 7a9238c (Adding commune)
     st.session_state["douars"] = load_data(douars_path)
 
 if "educ_data" not in st.session_state:
@@ -43,6 +51,26 @@ if "health_data" not in st.session_state:
 if "roads" not in st.session_state:
     roads_path = r"data/routes.geojson"
     st.session_state["roads"] = load_data(roads_path)
+if "driouch" not in st.session_state:
+    driouch_path = r"data/driouch.geojson"
+    st.session_state["driouch"] = load_data(driouch_path)
+if "quartier_driouch" not in st.session_state:
+   quartier_driouch_path = r"data/quartier_driouch1.geojson"
+   st.session_state["quartier_driouch"] = load_data(quartier_driouch_path)
+if "res_driouch" not in st.session_state:
+   res_driouch_path = r"data/res_driouch.geojson"
+   st.session_state["res_driouch"] = load_data(res_driouch_path)
+if "mosque_driouch" not in st.session_state:
+   mosque_driouch_path = r"data/mosque_driouch.geojson"
+   st.session_state["mosque_driouch"] = load_data(mosque_driouch_path)
+   
+    
+if "talilit" not in st.session_state:
+    talilit_path = r"data/talilit1.geojson"
+    st.session_state["talilit"] = load_data(talilit_path)
+if "ecole_talilit" not in st.session_state:
+    ecole_talilit_path = r"data/talilit1.geojson"
+    st.session_state["ecole_talilit"] = load_data(ecole_talilit_path)
 
 # Authentication Parameters
 cookie_expiry_days = 30
@@ -126,8 +154,12 @@ if st.session_state["authentication_status"]:
                 
         # Sidebar Navigation
         h = st.Page("app_pages/home_pg.py", title="🖥️ Home")
-        p1 = st.Page("app_pages/chart_pg.py", title="📉 Graphes")
-        p2 = st.Page("app_pages/map_pg.py", title="🗺️ Carte interactive")
+        p1 = st.Page("app_pages/chart_pg.py", title="Province")
+        p2 = st.Page("app_pages/map_pg.py", title="Province")
+        dp1 = st.Page("app_pages/d_chart_pg.py", title="Driouch")
+        dp2 = st.Page("app_pages/d_map_pg.py", title="Driouch")
+        tp1 = st.Page("app_pages/t_chart_pg.py", title="Tallilt")
+        tp2 = st.Page("app_pages/t_map_pg.py", title="Tallilt")
         sr = st.Page("app_pages/search_pg.py", title="🔍 Recherche")
         stg = st.Page("app_pages/settings_pg.py", title="⚙️ Paramètres")
 
@@ -143,7 +175,8 @@ if st.session_state["authentication_status"]:
         # Sidebar Navigation (only add pages that are not None)
         pages = {
             "Home": [h],
-            "Dashboard": [p1, p2],
+            "📉 Indices sociaux": [p1, dp1,tp1],
+            "🗺️ Cartes & graphes": [p2, dp2,tp2],
             "Tools": [sr, stg],
         }
 
